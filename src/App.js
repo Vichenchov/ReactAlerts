@@ -1,11 +1,11 @@
 import './App.css';
 
-import Search from './Components/search';
+import AlertsGraph from './Components/AlertsGraph';
 
 function App() {
   return (
    <>
-  <Search/>
+  <AlertsGraph/>
    </>
   );
 }
