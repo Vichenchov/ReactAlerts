@@ -1,36 +1,67 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import classes from "./Search.module.css";
 
-const Data = [
-  { id: 1, name: "חולון" },
-  { id: 2, name: "תל אביב" },
-  { id: 3, name: "תל אביב" },
-  { id: 4, name: "תל אביב" },
-  { id: 5, name: "תל אביב" },
-  { id: 6, name: "תל אביב" },
-  { id: 7, name: "בת ים" },
-  { id: 8, name: "תל חי" },
-  { id: 9, name: "תל אביב" }
-];
+import { SearchContext } from "../Context/SearchContext";
 
-const searchFilter = (searchValue, list, searchBy = 'name') => {
-  let lowerCaseQuery = searchValue.toLowerCase();
-  let filteredList = searchValue
-    ? list.filter(x => x[searchBy].toLowerCase().includes(lowerCaseQuery))
-    : list;
-  return filteredList;
-};
+let i = 0;
+
+function filterListInOrder(searchValue, list) {
+  let resultStartsWith = [];
+  let resultContains = [];
+
+  for (let item of list) {
+    if (item.startsWith(searchValue)) {
+      resultStartsWith.push(item);
+    } else if (item.includes(searchValue)) {
+      resultContains.push(item);
+    }
+  }
+  return resultStartsWith.concat(resultContains);
+}
 
 const Search = (props) => {
   const [value, setValue] = useState("");
   const [visible, setVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
+  const [selectedIndex, setSelectedIndex] = useState(-1); // Index of the selected item
+
+  const [filteredData, setFilteredData] = useState([]); // Filtered data based on search
+
+  const { setSearchValue } = useContext(SearchContext);
+
+  const [data, setData] = useState(null);
+  const [results, setResults] = useState(null); // Your search results
+
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch("http://localhost:3001/Alerts/cities");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const result = await response.json();
+        setData(result);
+        setFilteredData(result)
+      } catch (error) {
+        setError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
   const handleChange = (event) => {
     setSelectedItem(null);
     const currentValue = event.target.value;
     setValue(currentValue);
     currentValue ? setVisible(true) : setVisible(false);
+    setFilteredData(filterListInOrder(value, data));
   };
 
   const selectItem = (city) => {
@@ -39,45 +70,73 @@ const Search = (props) => {
     setVisible(false);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'ArrowDown') {
+      setSelectedIndex((prev) => (prev < filteredData.length - 1 ? prev + 1 : prev));
+    } else if (e.key === 'ArrowUp') {
+      setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));
+    } else if (e.key === 'Enter' && selectedIndex !== -1) {
+      submit(filteredData[selectedIndex]);
+      handleSelection(filteredData[selectedIndex]);
+    }
+  };
+
+  const handleSelection = (selectedItem) => {
+    // Logic to handle the selection from the dropdown
+    console.log('Selected:', selectedItem);
+  };
+
+  // const dropDownData = (value, data) => {
+  //   const newData = filterListInOrder(value, data);
+  //   setResults(newData);
+  //   return newData;
+  // };
+
   const submit = (event) => {
     event.preventDefault();
     if (selectedItem) {
-      //send data to the server
-      console.log(selectedItem);
+      setSearchValue(selectedItem);
     } else {
-      window.alert('יש לבחור עיר מהרשימה');
-      console.log(selectedItem);
+      window.alert(
+        "יש לבחור עיר מהרשימה\nבמידה ובישובך לא נשמעה אזעקה מעולם, הישוב לא יוצג"
+      );
     }
-  }
+  };
 
   return (
     <div className={classes.container}>
-      <form className={classes.search}>
+      <form onSubmit={submit} className={classes.search}>
         <div className={classes.resultes}>
           <input
             type="text"
             placeholder="חפש את הישוב שלך..."
             value={value}
             onChange={handleChange}
+            onKeyDown={handleKeyDown}
           />
-          <div className={classes.dropdown + `${visible ? 'v' : ''}`}>
+          <div className={classes.dropdown + `${visible ? "v" : ""}`}>
             {visible && (
               <ul>
-                {Data &&
-                  searchFilter(value, Data).map((city) => (
+                {data &&
+                  filteredData.map((city, index) => (
                     <li
-                      key={city.id}
-                      onClick={() => selectItem(city.name)}
+                      key={index}
+                      onClick={() => selectItem(city)}
                       className={classes.dropdownItem}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          submit(city);
+                        }
+                      }}
                     >
-                      {city.name}
+                      {city}
                     </li>
                   ))}
               </ul>
             )}
           </div>
         </div>
-        <button onClick={submit}>חיפוש</button>
+        <button type="submit">חיפוש</button>
       </form>
     </div>
   );
