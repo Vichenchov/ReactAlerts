@@ -35,8 +35,8 @@
 .search input:focus,
 .search button:hover {
   outline: none;
-  border-color: #fc8387;
-  box-shadow: 0 0 6px #fc8387;
+  border-color: var(--main-color);
+  box-shadow: 0 0 6px var(--main-color);
 }
 
 .resultes {

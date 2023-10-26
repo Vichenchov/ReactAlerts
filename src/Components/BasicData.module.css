@@ -1,0 +1,39 @@
+ .container{
+    text-align: right;
+} 
+
+.container, .first, .second{
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    align-content: center; 
+}
+
+
+
+.first, .second{
+    padding: 4rem;
+}
+
+.second{
+
+}
+
+.container div{
+    /* margin: 4rem; */
+    /* text-align: right; */
+}
+
+.container label{
+    font-size: xx-large;
+    font-weight: bold;
+    color:rgba(160, 160, 160, 0.993);
+}
+
+h4{
+    margin-bottom: 0;
+    color: var(--main-color);
+}
+

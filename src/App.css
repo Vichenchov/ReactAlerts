@@ -1,3 +1,7 @@
+:root{
+  --main-color: #a583fc;
+}
+
 .main{
   display: flex;
   flex-direction: column;
