@@ -3,38 +3,21 @@ import classes from "./Search.module.css";
 
 import { SearchContext } from "../Context/SearchContext";
 
-let i = 0;
-
-function filterListInOrder(searchValue, list) {
-  let resultStartsWith = [];
-  let resultContains = [];
-
-  for (let item of list) {
-    if (item.startsWith(searchValue)) {
-      resultStartsWith.push(item);
-    } else if (item.includes(searchValue)) {
-      resultContains.push(item);
-    }
-  }
-  return resultStartsWith.concat(resultContains);
-}
-
 const Search = (props) => {
   const [value, setValue] = useState("");
+  const [data, setData] = useState(null);
+  const [filteredData, setFilteredData] = useState([]); // Filtered data based on search
+  const [selectedIndex, setSelectedIndex] = useState(-1); // Index of the selected item
+
   const [visible, setVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const [selectedIndex, setSelectedIndex] = useState(-1); // Index of the selected item
-
-  const [filteredData, setFilteredData] = useState([]); // Filtered data based on search
-
   const { setSearchValue } = useContext(SearchContext);
-
-  const [data, setData] = useState(null);
-  const [results, setResults] = useState(null); // Your search results
-
-  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+
+  const [results, setResults] = useState(null); // Your search results
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,17 +40,23 @@ const Search = (props) => {
   }, []);
 
   const handleChange = (event) => {
+    setSelectedIndex(-1);
     setSelectedItem(null);
     const currentValue = event.target.value;
     setValue(currentValue);
     currentValue ? setVisible(true) : setVisible(false);
-    setFilteredData(filterListInOrder(value, data));
+    const filtered = data.filter((item) =>
+      item.includes(currentValue.toLowerCase())
+    );
+    setFilteredData(filtered);
   };
 
-  const selectItem = (city) => {
+  const handleSelection = (city) => {
     setValue(city);
     setSelectedItem(city);
+    setSearchValue(city);
     setVisible(false);
+    console.log('Selected:', selectedItem);
   };
 
   const handleKeyDown = (e) => {
@@ -76,21 +65,9 @@ const Search = (props) => {
     } else if (e.key === 'ArrowUp') {
       setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));
     } else if (e.key === 'Enter' && selectedIndex !== -1) {
-      submit(filteredData[selectedIndex]);
       handleSelection(filteredData[selectedIndex]);
     }
   };
-
-  const handleSelection = (selectedItem) => {
-    // Logic to handle the selection from the dropdown
-    console.log('Selected:', selectedItem);
-  };
-
-  // const dropDownData = (value, data) => {
-  //   const newData = filterListInOrder(value, data);
-  //   setResults(newData);
-  //   return newData;
-  // };
 
   const submit = (event) => {
     event.preventDefault();
@@ -105,7 +82,7 @@ const Search = (props) => {
 
   return (
     <div className={classes.container}>
-      <form onSubmit={submit} className={classes.search}>
+      <form className={classes.search}>
         <div className={classes.resultes}>
           <input
             type="text"
@@ -120,14 +97,10 @@ const Search = (props) => {
                 {data &&
                   filteredData.map((city, index) => (
                     <li
+                      style={index === selectedIndex ? { background: '#f0f0f0' } : {}}
                       key={index}
-                      onClick={() => selectItem(city)}
+                      onClick={() => handleSelection(city)}
                       className={classes.dropdownItem}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          submit(city);
-                        }
-                      }}
                     >
                       {city}
                     </li>
@@ -136,7 +109,7 @@ const Search = (props) => {
             )}
           </div>
         </div>
-        <button type="submit">חיפוש</button>
+        {/* <button type="submit">חיפוש</button> */}
       </form>
     </div>
   );
