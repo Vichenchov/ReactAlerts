@@ -66,5 +66,10 @@ ul {
   margin: 0;
   margin-right: 0.25rem;
   background-color: #fbfbfb;
+<<<<<<< HEAD:src/Components/search.module.css
   /* border-radius: 20px; */
 }
+=======
+  border-radius: 20px;
+}
+>>>>>>> d550d9456c46ce90b5fb98d5bd8cc59ac9044f87:src/Components/Search.module.css
