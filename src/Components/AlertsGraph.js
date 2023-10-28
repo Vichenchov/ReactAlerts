@@ -21,11 +21,11 @@ const AlertsGraph = () => {
   const [color, setColor] = useState("");
 
   useEffect(() => {
-    setIsLoading(true);
-
     const root = document.querySelector(":root");
     const styles = getComputedStyle(root);
     setColor(styles.getPropertyValue("--main-color"));
+
+    setIsLoading(true);
 
     if (cityDataVal) setIsLoading(false);
   }, [cityDataVal]);
