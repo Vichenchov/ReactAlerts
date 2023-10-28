@@ -6,24 +6,14 @@
     display: flex;
     flex-direction: row-reverse;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
     align-items: baseline;
     align-content: center; 
 }
 
 
-
-.first, .second{
+.first div, .second div{
     padding: 4rem;
-}
-
-.second{
-
-}
-
-.container div{
-    /* margin: 4rem; */
-    /* text-align: right; */
 }
 
 .container label{

@@ -1,23 +1,24 @@
-import './App.css'
+import "./App.css";
 
-import Search from './Components/Search'
-import AlertsGraph from './Components/AlertsGraph'
-import BasicData from './Components/BasicData'
-
-import { SearchContext } from './Context/SearchContext'
-import { useState } from 'react'
+import Search from "./Components/Search";
+import AlertsGraph from "./Components/AlertsGraph";
+import BasicData from "./Components/BasicData";
+import SearchContextProvider from "./Store/search/searchProvidor";
+import CityDataProvider from "./Store/citydata/cityDataProvider";
 
 function App() {
-  const [searchValue, setSearchValue] = useState('')
-
+  
   return (
     <div className="main">
-      <SearchContext.Provider value={{ searchValue, setSearchValue }}>
-        <BasicData />
-        <AlertsGraph />
-      </SearchContext.Provider>
+      <SearchContextProvider>
+        <CityDataProvider>
+          <Search />
+          <BasicData />
+          <AlertsGraph />
+        </CityDataProvider>
+      </SearchContextProvider>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
