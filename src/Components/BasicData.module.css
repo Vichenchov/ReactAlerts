@@ -11,7 +11,6 @@
     align-content: center; 
 }
 
-
 .first div, .second div{
     padding: 4rem;
 }
@@ -27,3 +26,22 @@ h4{
     color: var(--main-color);
 }
 
+.iconPlace1, .iconPlace2{
+    position: relative;
+}
+
+.handIcon1 , .handIcon2{
+    position: absolute;
+    color: #b5b4b4
+}
+
+.handIcon1{
+    bottom: 110px;
+    left: 144px;
+}
+
+.handIcon2{
+    /* bottom: -20px; */
+    /* top: 116px; */
+    /* left: 112px;  */
+}

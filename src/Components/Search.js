@@ -46,8 +46,8 @@ const Search = () => {
           throw new Error("Network response was not ok");
         }
         const result = await response.json();
-        setData(result);
-        setFilteredData(result);
+        setData(['ישראל',...result]);
+        setFilteredData(['ישראל',...result]);
       } catch (error) {
         setDisableSearch(true);
         setError(error);
