@@ -115,7 +115,7 @@ const Search = () => {
           />
           <div className={classes.dropdown + `${visible ? "v" : ""}`}>
             {visible && (
-              <ul>
+              <ul className={classes.ulCities}>
                 {data &&
                   filteredData.map((city, index) => (
                     <li

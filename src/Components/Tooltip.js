@@ -1,14 +1,14 @@
-import classes from './Tooltip.module.css';
-
-import AlertsHourList from './AlertsHourList';
+import classes from "./Tooltip.module.css";
 
 function Tooltip(props) {
-  const { text, children, hours } = props;
+  const { title, children, content } = props;
   return (
     <div className={classes.tooltip}>
-
       {children}
-      <span className={classes.tooltiptext}>{text}</span>
+      <span className={classes.tooltiptext}>
+        <div className={classes.title}>{title}</div>
+        {content}
+      </span>
     </div>
   );
 }

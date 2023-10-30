@@ -57,7 +57,7 @@
   }
 }
 
-ul {
+.ulCities{
   overflow-y: hidden;
   max-height: 9.4rem;
   list-style: none;
