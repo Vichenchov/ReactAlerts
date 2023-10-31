@@ -5,6 +5,7 @@ import AlertsGraph from './Components/AlertsGraph'
 import BasicData from './Components/BasicData'
 import SearchContextProvider from './Store/search/searchProvidor'
 import CityDataProvider from './Store/citydata/cityDataProvider'
+import HoursGraph from './Components/HoursGraph'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
@@ -21,6 +22,7 @@ function App() {
           <Search />
           <BasicData />
           <AlertsGraph />
+          <HoursGraph/>
         </CityDataProvider>
       </SearchContextProvider>
     </div>

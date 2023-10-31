@@ -25,6 +25,9 @@
   opacity: 1;
 }
 
-.title{
+.title {
   margin: 0.5rem;
+  color: var(--main-color);
+  text-decoration: solid;
+  font-weight: bold;
 }

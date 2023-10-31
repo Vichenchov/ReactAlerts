@@ -1,52 +1,50 @@
-import { useContext, useEffect, useState } from "react";
-import classes from "./BasicData.module.css";
-import { SearchContext } from "../Store/search/search-context";
-import { CityDataContext } from "../Store/citydata/citydata-context";
-import { ThreeDots } from "react-loader-spinner";
-import basicDataFunctions from "../AuxiliaryClasses/BasicDataFunctions";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import AlertsHourList from "./AlertsHourList";
-import Tooltip from "./Tooltip";
+import { useContext, useEffect, useState } from 'react'
+import classes from './BasicData.module.css'
+import { SearchContext } from '../Store/search/search-context'
+import { CityDataContext } from '../Store/citydata/citydata-context'
+import { ThreeDots } from 'react-loader-spinner'
+import basicDataFunctions from '../AuxiliaryClasses/BasicDataFunctions'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import AlertsHourList from './AlertsHourList'
+import Tooltip from './Tooltip'
 
 const BasicData = () => {
-  const { searchValue } = useContext(SearchContext);
-  const cityDataVal = useContext(CityDataContext);
+  const { searchValue } = useContext(SearchContext)
+  const cityDataVal = useContext(CityDataContext)
 
-  const [color, setColor] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [goodTimeList, setGoodTimeList] = useState([]);
-  const [badTimeList, setBadTimeList] = useState([]);
-  const [badTimeCount, setBadTimeCount] = useState("");
+  const [color, setColor] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [goodTimeList, setGoodTimeList] = useState([])
+  const [badTimeList, setBadTimeList] = useState([])
   const [data, setData] = useState({
-    city: "ישראל",
-    badTime: "-",
-    goodTime: "-",
-    count: "-",
-  });
+    city: 'ישראל',
+    badTime: '-',
+    goodTime: '-',
+    count: '-',
+  })
 
   useEffect(() => {
-    const root = document.querySelector(":root");
-    const styles = getComputedStyle(root);
-    setColor(styles.getPropertyValue("--main-color"));
+    const root = document.querySelector(':root')
+    const styles = getComputedStyle(root)
+    setColor(styles.getPropertyValue('--main-color'))
 
-    setIsLoading(true);
+    setIsLoading(true)
 
     if (cityDataVal) {
-      let count = basicDataFunctions.getAmountOfAlerts(cityDataVal);
-      let badTime = basicDataFunctions.badHour(cityDataVal);
-      let goodTime = basicDataFunctions.goodHour(cityDataVal);
-      setGoodTimeList(goodTime);
-      setBadTimeList(badTime);
-      setBadTimeCount(badTime[0].count);
+      let count = basicDataFunctions.getAmountOfAlerts(cityDataVal)
+      let badTime = basicDataFunctions.badHour(cityDataVal)
+      let goodTime = basicDataFunctions.goodHour(cityDataVal)
+      setGoodTimeList(goodTime)
+      setBadTimeList(badTime)
       setData({
-        city: searchValue || "ישראל",
-        badTime: badTime[0].time,
+        city: searchValue || 'ישראל',
+        badTime: badTime[0],
         goodTime: goodTime[0],
         count: count,
-      });
-      setIsLoading(false);
+      })
+      setIsLoading(false)
     }
-  }, [searchValue, cityDataVal]);
+  }, [searchValue, cityDataVal])
 
   return (
     <>
@@ -70,13 +68,25 @@ const BasicData = () => {
               <label>{data.city}</label>
             </div>
             <div className={classes.iconPlace1}>
-              <Tooltip
-                title="כמות שיגורים"
-                content={<label>{badTimeCount}</label>}
-              >
-                <h4>הזמן הגרוע</h4>
-                <label>{data.badTime}</label>
-              </Tooltip>
+              <h4>
+                {badTimeList.length > 1 && (
+                  <>
+                    <Tooltip
+                      title="שעות נוספות"
+                      content={<AlertsHourList hours={badTimeList} />}
+                    >
+                      <FontAwesomeIcon
+                        icon="fa-regular fa-hand"
+                        fade
+                        size="xs"
+                        className={classes.handIcon1}
+                      />
+                    </Tooltip>
+                  </>
+                )}
+                הזמן הגרוע
+              </h4>
+              <label>{data.badTime}</label>
             </div>
           </div>
           <div className={classes.second}>
@@ -109,7 +119,7 @@ const BasicData = () => {
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
-export default BasicData;
+export default BasicData

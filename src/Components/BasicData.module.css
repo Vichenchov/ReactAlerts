@@ -1,50 +1,52 @@
- .container{
-    text-align: right;
-} 
-
-.container, .first, .second{
-    display: flex;
-    flex-direction: row-reverse;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: baseline;
-    align-content: center; 
+.container {
+  text-align: right;
 }
 
-.iconPlace1,  .iconPlace2, .addPadding{
-    padding: 4rem;
+.container,
+.first,
+.second {
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  align-content: center;
 }
 
-.container label{
-    font-size: xx-large;
-    font-weight: bold;
-    color:rgba(160, 160, 160, 0.993);
+.iconPlace1,
+.iconPlace2,
+.addPadding {
+  padding: 4rem;
 }
 
-h4{
-    margin-bottom: 0;
-    color: var(--main-color);
+.container label {
+  font-size: xx-large;
+  font-weight: bold;
+  color: rgba(160, 160, 160, 0.993);
 }
 
-.iconPlace1{
-    
+h4 {
+  margin-bottom: 0;
+  color: var(--main-color);
 }
 
-.iconPlace1, .iconPlace2{
-    position: relative;
+.iconPlace1,
+.iconPlace2 {
+  position: relative;
 }
 
-.handIcon1 , .handIcon2{
-    position: absolute;
-    color: #b5b4b4
+.handIcon1,
+.handIcon2 {
+  position: absolute;
+  color: #b5b4b4;
 }
 
-.handIcon1{
-    bottom: 110px;
-    left: 144px;
+.handIcon1 {
+  bottom: -1px;
+  left: -18px;
 }
 
-.handIcon2{
-    bottom: -1px;
-    right: 5px; 
+.handIcon2 {
+  bottom: 0;
+  right: 5px;
 }
