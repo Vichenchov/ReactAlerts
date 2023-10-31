@@ -1,9 +1,13 @@
 :root{
-  --main-color: #fa9d9d;
+  --main-color: #1db6ee;
 }
 
 .main{
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.startDate{
+  margin: 1rem;
 }

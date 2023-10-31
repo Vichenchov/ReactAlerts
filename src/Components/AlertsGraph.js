@@ -45,32 +45,35 @@ const AlertsGraph = () => {
         />
       )}
       {!isLoading && (
-        <LineChart
-          width={500}
-          height={300}
-          data={cityDataVal}
-          // margin={{
-          //   top: 5,
-          //   right: 30,
-          //   left: 20,
-          //   bottom: 5,
-          // }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="time" />
-          <YAxis dataKey="" />
-          <Tooltip />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="count"
-            name="התראות צבע אדום"
-            stroke={color}
-            activeDot={{
-              r: 8,
-            }}
-          />
-        </LineChart>
+        <div className="graph">
+          <h1 className="graphTitle"> כמות התראות לפי שעה </h1>
+          <LineChart
+            width={500}
+            height={300}
+            data={cityDataVal}
+            // margin={{
+            //   top: 5,
+            //   right: 30,
+            //   left: 20,
+            //   bottom: 5,
+            // }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="time" />
+            <YAxis dataKey="" />
+            <Tooltip />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="count"
+              name="התראות צבע אדום"
+              stroke={color}
+              activeDot={{
+                r: 8,
+              }}
+            />
+          </LineChart>
+        </div>
       )}
     </>
   );
