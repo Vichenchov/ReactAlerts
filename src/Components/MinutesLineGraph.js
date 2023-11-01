@@ -1,4 +1,4 @@
-import classes from "./HoursGraph.module.css";
+import classes from "./LineGraph.module.css";
 
 import {
   LineChart,
@@ -7,14 +7,15 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
 } from "recharts";
 
 import { useContext, useEffect, useState } from "react";
 import { minDataContext } from "../Store/minutesData/minData-context";
 import { ThreeDots } from "react-loader-spinner";
 
-const HoursGraph = () => {
+const MinuterLineGraph = (props) => {
+  const { TitleName, Xlabel, Ylabel, DataKeyX, DataKeyY, TooltipLabel } = props;
+
   const minDataVal = useContext(minDataContext);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -26,13 +27,12 @@ const HoursGraph = () => {
     setColor(styles.getPropertyValue("--main-color"));
 
     setIsLoading(true);
-
+    console.log(minDataVal);
     if (minDataVal) setIsLoading(false);
   }, [minDataVal]);
 
   return (
     <>
-      {" "}
       {isLoading && (
         <ThreeDots
           height="80"
@@ -44,30 +44,45 @@ const HoursGraph = () => {
           wrapperClassName=""
           visible={true}
         />
-      )}{" "}
+      )}
       {!isLoading && (
         <div className="graph">
-          <h1 className="graphTitle">כמות התראות לפי דקות </h1>
+          <h3 className="graphTitle"> {TitleName} </h3>{" "}
           <LineChart
             width={500}
             height={300}
             data={minDataVal}
-            // margin={{
-            //   top: 5,
-            //   right: 30,
-            //   left: 20,
-            //   bottom: 5,
-            // }}
+            margin={{
+              top: 0,
+              right: 0,
+              left: 0,
+              bottom: 15,
+            }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="time" />
-            <YAxis dataKey="" />
+            <XAxis
+              dataKey={DataKeyX}
+              label={{
+                value: Xlabel,
+                position: "bottom",
+                offset: 0,
+              }}
+              scale="band"
+            />
+            <YAxis
+              dataKey={DataKeyY}
+              label={{
+                value: Ylabel,
+                angle: -90,
+                position: "insideLeft",
+                textAnchor: "middle",
+              }}
+            />{" "}
             <Tooltip />
-            <Legend />
             <Line
               type="monotone"
               dataKey="count"
-              name="התראות צבע אדום"
+              name={TooltipLabel}
               stroke={color}
               activeDot={{
                 r: 8,
@@ -80,4 +95,4 @@ const HoursGraph = () => {
   );
 };
 
-export default HoursGraph;
+export default MinuterLineGraph;

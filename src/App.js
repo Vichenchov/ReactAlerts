@@ -1,12 +1,12 @@
 import "./App.css";
 
 import Search from "./Components/Search";
-import AlertsGraph from "./Components/AlertsGraph";
 import BasicData from "./Components/BasicData";
 import SearchContextProvider from "./Store/search/searchProvidor";
 import CityDataProvider from "./Store/citydata/cityDataProvider";
-import HoursGraph from "./Components/HoursGraph";
+import HoursLineGraph from "./Components/HoursLineGraph";
 import MinDataProvider from "./Store/minutesData/minDataProvidor";
+import MinutesLineGraph from "./Components/MinutesLineGraph";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
@@ -21,12 +21,25 @@ function App() {
       <SearchContextProvider>
         <CityDataProvider>
           <MinDataProvider>
-            <label className="startDate"> המידע מה - 10.10 .23 </label>{" "}
-            <Search />
+            <label className="startDate"> המידע מה - 17 / 10 </label> <Search />
             <BasicData />
             <div className="graphs">
-              <AlertsGraph />
-              <HoursGraph />
+              <HoursLineGraph
+                TitleName={"כמות התראות לפי שעה"}
+                Xlabel={"טווח שעות"}
+                Ylabel={"כמות התראות"}
+                DataKeyX={"time"}
+                DataKeyY={"count"}
+                TooltipLabel={"כמות שיגורים"}
+              />
+              <MinutesLineGraph
+                TitleName={"כמות התראות לפי דקות"}
+                Xlabel={"דקה בשעה עגולה"}
+                Ylabel={"כמות התראות"}
+                DataKeyX={"time"}
+                DataKeyY={"count"}
+                TooltipLabel={"כמות שיגורים"}
+              />
             </div>
           </MinDataProvider>
         </CityDataProvider>

@@ -1,4 +1,4 @@
-import classes from "./AlertsGraph.module.css";
+import classes from "./LineGraph.module.css";
 
 import {
   LineChart,
@@ -7,14 +7,15 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
 } from "recharts";
 
 import { useContext, useEffect, useState } from "react";
 import { CityDataContext } from "../Store/citydata/citydata-context";
 import { ThreeDots } from "react-loader-spinner";
 
-const AlertsGraph = () => {
+const HoursLineGraph = (props) => {
+  const { TitleName, Xlabel, Ylabel, DataKeyX, DataKeyY, TooltipLabel } = props;
+
   const cityDataVal = useContext(CityDataContext);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +27,7 @@ const AlertsGraph = () => {
     setColor(styles.getPropertyValue("--main-color"));
 
     setIsLoading(true);
-
+    console.log(cityDataVal);
     if (cityDataVal) setIsLoading(false);
   }, [cityDataVal]);
 
@@ -46,27 +47,42 @@ const AlertsGraph = () => {
       )}
       {!isLoading && (
         <div className="graph">
-          <h1 className="graphTitle"> כמות התראות לפי שעה </h1>
+          <h3 className="graphTitle"> {TitleName} </h3>{" "}
           <LineChart
             width={500}
             height={300}
             data={cityDataVal}
-            // margin={{
-            //   top: 5,
-            //   right: 30,
-            //   left: 20,
-            //   bottom: 5,
-            // }}
+            margin={{
+              top: 0,
+              right: 0,
+              left: 0,
+              bottom: 15,
+            }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="time" />
-            <YAxis dataKey="" />
+            <XAxis
+              dataKey={DataKeyX}
+              label={{
+                value: Xlabel,
+                position: "bottom",
+                offset: 0,
+              }}
+              scale="band"
+            />
+            <YAxis
+              dataKey={DataKeyY}
+              label={{
+                value: Ylabel,
+                angle: -90,
+                position: "insideLeft",
+                textAnchor: "middle",
+              }}
+            />
             <Tooltip />
-            <Legend />
             <Line
               type="monotone"
               dataKey="count"
-              name="התראות צבע אדום"
+              name={TooltipLabel}
               stroke={color}
               activeDot={{
                 r: 8,
@@ -79,4 +95,4 @@ const AlertsGraph = () => {
   );
 };
 
-export default AlertsGraph;
+export default HoursLineGraph;
