@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import classes from "./Search.module.css";
 
-import { SearchContext } from "../Store/search/search-context";
+import { SearchContext } from "../../Store/search/search-context";
 
 function filterListInOrder(searchValue, list) {
   let resultStartsWith = [];

@@ -10,13 +10,13 @@ import {
 } from "recharts";
 
 import { useContext, useEffect, useState } from "react";
-import { CityDataContext } from "../Store/citydata/citydata-context";
+import { minDataContext } from "../../Store/minutesData/minData-context";
 import { ThreeDots } from "react-loader-spinner";
 
-const HoursLineGraph = (props) => {
+const MinuterLineGraph = (props) => {
   const { TitleName, Xlabel, Ylabel, DataKeyX, DataKeyY, TooltipLabel } = props;
 
-  const cityDataVal = useContext(CityDataContext);
+  const minDataVal = useContext(minDataContext);
 
   const [isLoading, setIsLoading] = useState(false);
   const [color, setColor] = useState("");
@@ -27,9 +27,9 @@ const HoursLineGraph = (props) => {
     setColor(styles.getPropertyValue("--main-color"));
 
     setIsLoading(true);
-    console.log(cityDataVal);
-    if (cityDataVal) setIsLoading(false);
-  }, [cityDataVal]);
+    console.log(minDataVal);
+    if (minDataVal) setIsLoading(false);
+  }, [minDataVal]);
 
   return (
     <>
@@ -51,7 +51,7 @@ const HoursLineGraph = (props) => {
           <LineChart
             width={500}
             height={300}
-            data={cityDataVal}
+            data={minDataVal}
             margin={{
               top: 0,
               right: 0,
@@ -77,7 +77,7 @@ const HoursLineGraph = (props) => {
                 position: "insideLeft",
                 textAnchor: "middle",
               }}
-            />
+            />{" "}
             <Tooltip />
             <Line
               type="monotone"
@@ -87,12 +87,12 @@ const HoursLineGraph = (props) => {
               activeDot={{
                 r: 8,
               }}
-            />
-          </LineChart>
+            />{" "}
+          </LineChart>{" "}
         </div>
-      )}
+      )}{" "}
     </>
   );
 };
 
-export default HoursLineGraph;
+export default MinuterLineGraph;

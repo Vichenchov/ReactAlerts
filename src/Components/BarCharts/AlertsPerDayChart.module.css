@@ -1,0 +1,6 @@
+.customTooltip{
+    padding: 0.75rem;
+    background-color: rgba(215, 206, 206, 0.621);
+    text-align: right;
+    border-radius: 20px;
+}

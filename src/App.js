@@ -1,12 +1,13 @@
 import "./App.css";
 
-import Search from "./Components/Search";
-import BasicData from "./Components/BasicData";
+import Search from "./Components/Search/Search";
+import BasicData from "./Components/BasicData/BasicData";
 import SearchContextProvider from "./Store/search/searchProvidor";
 import CityDataProvider from "./Store/citydata/cityDataProvider";
-import HoursLineGraph from "./Components/HoursLineGraph";
+import HoursLineGraph from "./Components/LineGraphs/HoursLineGraph";
 import MinDataProvider from "./Store/minutesData/minDataProvidor";
-import MinutesLineGraph from "./Components/MinutesLineGraph";
+import MinutesLineGraph from "./Components/LineGraphs/MinutesLineGraph";
+import AlertsPerDayChart from "./Components/BarCharts/AlertsPerDayChart";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
@@ -23,6 +24,7 @@ function App() {
           <MinDataProvider>
             <label className="startDate"> המידע מה - 17 / 10 </label> <Search />
             <BasicData />
+            <AlertsPerDayChart />
             <div className="graphs">
               <HoursLineGraph
                 TitleName={"כמות התראות לפי שעה"}

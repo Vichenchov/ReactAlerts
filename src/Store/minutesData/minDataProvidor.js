@@ -20,7 +20,6 @@ const MinDataProvider = ({ children }) => {
       }
     };
     fetchData();
-    console.log(minDataVal);
   }, [searchValue]);
 
   return (

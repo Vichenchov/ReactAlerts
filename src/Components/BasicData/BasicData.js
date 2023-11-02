@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from 'react'
 import classes from './BasicData.module.css'
-import { SearchContext } from '../Store/search/search-context'
-import { CityDataContext } from '../Store/citydata/citydata-context'
+import { SearchContext } from '../../Store/search/search-context'
+import { CityDataContext } from '../../Store/citydata/citydata-context'
 import { ThreeDots } from 'react-loader-spinner'
-import basicDataFunctions from '../AuxiliaryClasses/BasicDataFunctions'
+import basicDataFunctions from '../../AuxiliaryClasses/BasicDataFunctions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import AlertsHourList from './AlertsHourList'
-import Tooltip from './Tooltip'
+import AlertsHourList from '../AlertsHoursList/AlertsHourList'
+import Tooltip from '../Tooltip/Tooltip'
 
 const BasicData = () => {
   const { searchValue } = useContext(SearchContext)
