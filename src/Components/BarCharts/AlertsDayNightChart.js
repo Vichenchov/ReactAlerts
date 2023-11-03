@@ -1,22 +1,24 @@
-import classes from "./LineGraph.module.css";
+import classes from "./AlertsPerDayChart.module.css";
+
+import { useContext, useEffect, useState } from "react";
+import { alertsPerDayContext } from "../../Store/alertsPerDay/alertsperday-context";
+import { ThreeDots } from "react-loader-spinner";
 
 import {
-  LineChart,
-  Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
+  Rectangle,
+  Legend,
 } from "recharts";
 
-import { useContext, useEffect, useState } from "react";
-import { CityDataContext } from "../../Store/citydata/citydata-context";
-import { ThreeDots } from "react-loader-spinner";
+const AlertsDayNightChart = (props) => {
+  const { TitleName, Xlabel, Ylabel, DataKeyX, DataKeyY } = props;
 
-const HoursLineGraph = (props) => {
-  const { TitleName, Xlabel, Ylabel, DataKeyX, DataKeyY, TooltipLabel } = props;
-
-  const cityDataVal = useContext(CityDataContext);
+  let alertsByDayData = useContext(alertsPerDayContext);
 
   const [isLoading, setIsLoading] = useState(false);
   const [color, setColor] = useState("");
@@ -27,8 +29,8 @@ const HoursLineGraph = (props) => {
     const styles = getComputedStyle(root);
     setColor(styles.getPropertyValue("--main-color"));
 
-    if (cityDataVal) setIsLoading(false);
-  }, [cityDataVal]);
+    if (alertsByDayData) setIsLoading(false);
+  }, [alertsByDayData]);
 
   return (
     <>
@@ -47,10 +49,10 @@ const HoursLineGraph = (props) => {
       {!isLoading && (
         <div className="graph">
           <h3 className="graphTitle"> {TitleName} </h3>
-          <LineChart
-            width={500}
-            height={300}
-            data={cityDataVal}
+          <BarChart
+            width={700}
+            height={350}
+            data={alertsByDayData}
             margin={{
               top: 0,
               right: 0,
@@ -59,17 +61,8 @@ const HoursLineGraph = (props) => {
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              dataKey={DataKeyX}
-              label={{
-                value: Xlabel,
-                position: "bottom",
-                offset: 0,
-              }}
-              scale="band"
-            />
+            <XAxis dataKey={DataKeyX} />
             <YAxis
-              dataKey={DataKeyY}
               label={{
                 value: Ylabel,
                 angle: -90,
@@ -78,20 +71,26 @@ const HoursLineGraph = (props) => {
               }}
             />
             <Tooltip />
-            <Line
-              type="monotone"
-              dataKey="count"
-              name={TooltipLabel}
-              stroke={color}
-              activeDot={{
-                r: 8,
-              }}
+            <Legend />
+            <Bar
+              dataKey="countAM"
+              name="AM"
+              fill="gray"
+              barSize={40}
+              activeBar={<Rectangle fill="pink" stroke="blue" />}
             />
-          </LineChart>
+            <Bar
+              dataKey="countPM"
+              name="PM"
+              fill={color}
+              barSize={40}
+              activeBar={<Rectangle fill="gold" stroke="purple" />}
+            />
+          </BarChart>
         </div>
       )}
     </>
   );
 };
 
-export default HoursLineGraph;
+export default AlertsDayNightChart;

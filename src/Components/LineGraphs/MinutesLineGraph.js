@@ -27,7 +27,6 @@ const MinuterLineGraph = (props) => {
     setColor(styles.getPropertyValue("--main-color"));
 
     setIsLoading(true);
-    console.log(minDataVal);
     if (minDataVal) setIsLoading(false);
   }, [minDataVal]);
 
