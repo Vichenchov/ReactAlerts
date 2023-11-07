@@ -29,7 +29,8 @@ code {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: 10rem;
+  margin-bottom: 5rem;
+  padding: 0 4rem;
 }
 
 .graphTitle{

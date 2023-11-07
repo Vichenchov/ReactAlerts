@@ -10,6 +10,9 @@ import HoursLineGraph from "./Components/LineGraphs/HoursLineGraph";
 import MinutesLineGraph from "./Components/LineGraphs/MinutesLineGraph";
 import AlertsPerDayChart from "./Components/BarCharts/AlertsPerDayChart";
 import AlertsDayNightChart from "./Components/BarCharts/AlertsDayNightChart";
+import DayNightAlerts from "./Components/PieCharts/DayNightAlerts";
+import AlertsTable from "./Components/Tables/AlertsTable";
+import Avg from "./Components/Avg/Avg";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
@@ -28,38 +31,43 @@ function App() {
               <label className="startDate"> המידע מה - 17 / 10 </label>{" "}
               <Search />
               <BasicData />
+              <AlertsTable TitleName={"התראות ב24 שעות האחרונות"} />{" "}
+              <div className="graphs">
               <AlertsPerDayChart
-                TitleName={"כמות התראות לפי ימים"}
+                TitleName={"כמות התרעות לפי ימים"}
                 Xlabel={"תאריך"}
-                Ylabel={"כמות התראות"}
+                Ylabel={"כמות התרעות"}
+                TooltipLabel={'סה"כ ההתרעות ביממה'}
                 DataKeyX={"date"}
-              />{" "}
+              />
+              <Avg/>
+              </div>
               <div className="graphs">
                 <AlertsDayNightChart
-                  TitleName={"התראות - יום ולילה"}
+                  TitleName={"התרעות - יום ולילה"}
                   Xlabel={"תאריך"}
-                  Ylabel={"כמות התראות"}
+                  Ylabel={"כמות התרעות"}
                   DataKeyX={"date"}
                   DataKeyY={"total"}
                 />{" "}
-                {/* לשים כאן את הכרף עוגה */}{" "}
+                <DayNightAlerts TitleName={"התראות לפי זמנים ביממה"} />{" "}
               </div>{" "}
               <div className="graphs">
                 <HoursLineGraph
-                  TitleName={"כמות התראות לפי שעות"}
+                  TitleName={"כמות התרעות לפי שעות"}
                   Xlabel={"טווח שעות"}
-                  Ylabel={"כמות התראות"}
+                  Ylabel={"כמות התרעות"}
                   DataKeyX={"time"}
                   DataKeyY={"count"}
-                  TooltipLabel={"כמות התראות"}
+                  TooltipLabel={"כמות התרעות"}
                 />{" "}
                 <MinutesLineGraph
-                  TitleName={"כמות התראות לפי דקות"}
+                  TitleName={"כמות התרעות לפי דקות"}
                   Xlabel={"דקה בשעה עגולה"}
-                  Ylabel={"כמות התראות"}
+                  Ylabel={"כמות התרעות"}
                   DataKeyX={"time"}
                   DataKeyY={"count"}
-                  TooltipLabel={"כמות התראות"}
+                  TooltipLabel={"כמות התרעות"}
                 />{" "}
               </div>{" "}
             </AlertsPerDayProvider>{" "}

@@ -77,7 +77,7 @@ const HoursLineGraph = (props) => {
                 textAnchor: "middle",
               }}
             />
-            <Tooltip />
+            <Tooltip labelStyle={{ direction: 'rtl' }} />
             <Line
               type="monotone"
               dataKey="count"

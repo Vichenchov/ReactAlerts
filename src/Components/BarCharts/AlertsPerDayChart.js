@@ -6,30 +6,10 @@ import { ThreeDots } from "react-loader-spinner";
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 
-const CustomTooltip = ({ active, payload, label }) => {
-  if (active && payload && payload.length) {
-    return (
-      <div className={classes.customTooltip}>
-        <p className="label"> {`תאריך : ${label}`} </p>
-        <p className="label"> {`כמות התראות : ${payload[0].value}`} </p>{" "}
-        <p className="desc">
-          {`כמות התראות ביום : ${payload[0].payload.countAM}`}
-        </p>
-        <p className="desc">
-          {`כמות התראות בלילה :${payload[0].payload.countPM}`}
-        </p>
-      </div>
-    );
-  }
-
-  return null;
-};
-
 const AlertsPerDayChart = (props) => {
   const { TitleName, Xlabel, Ylabel, DataKeyX, DataKeyY, TooltipLabel } = props;
 
-  let alertsByDayData  = useContext(alertsPerDayContext);
-
+  let alertsByDayData = useContext(alertsPerDayContext);
   const [isLoading, setIsLoading] = useState(false);
   const [color, setColor] = useState("");
 
@@ -38,7 +18,6 @@ const AlertsPerDayChart = (props) => {
     const root = document.querySelector(":root");
     const styles = getComputedStyle(root);
     setColor(styles.getPropertyValue("--main-color"));
-
     if (alertsByDayData) setIsLoading(false);
   }, [alertsByDayData]);
 
@@ -55,10 +34,10 @@ const AlertsPerDayChart = (props) => {
           wrapperClassName=""
           visible={true}
         />
-      )}
+      )}{" "}
       {!isLoading && (
         <div className="graph">
-          <h3 className="graphTitle"> {TitleName} </h3>
+          <h3 className="graphTitle"> {TitleName} </h3>{" "}
           <BarChart
             width={700}
             height={300}
@@ -88,7 +67,7 @@ const AlertsPerDayChart = (props) => {
                 textAnchor: "middle",
               }}
             />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip labelStyle={{ direction: 'rtl' }}/>
             <Bar
               dataKey="total"
               name={TooltipLabel}
@@ -97,7 +76,7 @@ const AlertsPerDayChart = (props) => {
             />
           </BarChart>
         </div>
-      )}
+      )}{" "}
     </>
   );
 };

@@ -70,7 +70,7 @@ const AlertsDayNightChart = (props) => {
                 textAnchor: "middle",
               }}
             />
-            <Tooltip />
+            <Tooltip labelStyle={{ direction: 'ltr' }}/>
             <Legend />
             <Bar
               dataKey="countAM"

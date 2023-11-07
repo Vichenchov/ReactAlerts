@@ -76,8 +76,8 @@ const MinuterLineGraph = (props) => {
                 position: "insideLeft",
                 textAnchor: "middle",
               }}
-            />{" "}
-            <Tooltip />
+            />
+            <Tooltip labelStyle={{ direction: 'rtl' }} />
             <Line
               type="monotone"
               dataKey="count"

@@ -1,0 +1,184 @@
+import classes from "./DayNightAlerts.module.css";
+
+import { PieChart, Pie, Sector } from "recharts";
+import { alertsPerDayContext } from "../../Store/alertsPerDay/alertsperday-context";
+import { SearchContext } from "../../Store/search/search-context";
+import { useCallback, useContext, useEffect, useState } from "react";
+
+const renderActiveShape = (props) => {
+  const RADIAN = Math.PI / 180;
+  const {
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    startAngle,
+    endAngle,
+    fill,
+    payload,
+    percent,
+    value,
+  } = props;
+  const sin = Math.sin(-RADIAN * midAngle);
+  const cos = Math.cos(-RADIAN * midAngle);
+  const sx = cx + (outerRadius + 10) * cos;
+  const sy = cy + (outerRadius + 10) * sin;
+  const mx = cx + (outerRadius + 30) * cos;
+  const my = cy + (outerRadius + 30) * sin;
+  const ex = mx + (cos >= 0 ? 1 : -1) * 22;
+  const ey = my;
+  const textAnchor = cos >= 0 ? "start" : "end";
+
+  return (
+    <g>
+      <text
+        x={cx}
+        y={cy}
+        dy={8}
+        textAnchor="middle"
+        className={classes.timeText}
+        fill={fill}
+      >
+        {payload.name}{" "}
+      </text>{" "}
+      <Sector
+        cx={cx}
+        cy={cy}
+        innerRadius={innerRadius}
+        outerRadius={outerRadius}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        fill={fill}
+      />{" "}
+      <Sector
+        cx={cx}
+        cy={cy}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        innerRadius={outerRadius + 6}
+        outerRadius={outerRadius + 10}
+        fill={fill}
+      />{" "}
+      <path
+        d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
+        stroke={fill}
+        fill="none"
+      />
+      <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
+      <text
+        x={ex + (cos >= 0 ? 1 : -1) * 12}
+        y={ey}
+        textAnchor={textAnchor}
+        fill="#333"
+      >
+        {` התראות : ${value}`}{" "}
+      </text>{" "}
+      <text
+        x={ex + (cos >= 0 ? 1 : -1) * 12}
+        y={ey}
+        dy={18}
+        textAnchor={textAnchor}
+        fill="#999"
+      >
+        {`(${(percent * 100).toFixed(2)}%)`}{" "}
+      </text>{" "}
+    </g>
+  );
+};
+
+const DayNightAlerts = (props) => {
+  const { TitleName } = props;
+  let alertsByDayData = useContext(alertsPerDayContext);
+  let { searchValue } = useContext(SearchContext);
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const onPieEnter = useCallback(
+    (_, index) => {
+      setActiveIndex(index);
+    },
+    [setActiveIndex]
+  );
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [color, setColor] = useState("");
+  const [data, setData] = useState(
+    {
+      name: "00:00 - 06:00",
+      value: 0,
+    },
+    {
+      name: "06:00 - 12:00",
+      value: 0,
+    },
+    {
+      name: "12:00 - 18:00",
+      value: 0,
+    },
+    {
+      name: "18:00 - 00:00",
+      value: 0,
+    }
+  );
+
+  useEffect(() => {
+    setIsLoading(true);
+    const root = document.querySelector(":root");
+    const styles = getComputedStyle(root);
+    setColor(styles.getPropertyValue("--main-color"));
+    const fetchData = async () => {
+      try {
+        let url = `http://localhost:3001/Alerts/ישראל/quarters`;
+        if (searchValue)
+          url = `http://localhost:3001/Alerts/${searchValue}/quarters`;
+        const response = await fetch(url);
+        const alerts = await response.json();
+        const newData = [
+          {
+            name: "00:00 - 06:00",
+            value: alerts.am1,
+          },
+          {
+            name: "06:00 - 12:00",
+            value: alerts.am2,
+          },
+          {
+            name: "12:00 - 18:00",
+            value: alerts.pm1,
+          },
+          {
+            name: "18:00 - 00:00",
+            value: alerts.pm2,
+          },
+        ];
+        setData(newData);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+      } catch (error) {}
+    };
+    fetchData();
+  }, [searchValue, alertsByDayData]);
+
+  return (
+    <div className="graph">
+      <h3 className="graphTitle"> {TitleName} </h3>
+      <PieChart width={450} height={400}>
+        <Pie
+          activeIndex={activeIndex}
+          activeShape={renderActiveShape}
+          data={data}
+          cx={200}
+          cy={200}
+          innerRadius={60}
+          outerRadius={80}
+          fill={color}
+          dataKey="value"
+          onMouseEnter={onPieEnter}
+        />
+      </PieChart>
+    </div>
+  );
+};
+
+export default DayNightAlerts;
