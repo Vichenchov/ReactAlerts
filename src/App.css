@@ -1,13 +1,10 @@
-:root{
-  --main-color: #1db6ee;
-}
-
 .main{
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.startDate{
-  margin: 1rem;
+.threeDots{
+  display: flex;
+  justify-content: center;
 }

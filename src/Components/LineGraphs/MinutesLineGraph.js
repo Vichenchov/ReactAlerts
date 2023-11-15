@@ -7,6 +7,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  ResponsiveContainer,
 } from "recharts";
 
 import { useContext, useEffect, useState } from "react";
@@ -18,21 +19,21 @@ const MinuterLineGraph = (props) => {
 
   const minDataVal = useContext(minDataContext);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [color, setColor] = useState("");
 
   useEffect(() => {
+    setLoading(true);
     const root = document.querySelector(":root");
     const styles = getComputedStyle(root);
     setColor(styles.getPropertyValue("--main-color"));
 
-    setIsLoading(true);
-    if (minDataVal) setIsLoading(false);
+    if (minDataVal)setLoading(false);
   }, [minDataVal]);
 
   return (
     <>
-      {isLoading && (
+     {loading ? (
         <ThreeDots
           height="80"
           width="80"
@@ -43,13 +44,13 @@ const MinuterLineGraph = (props) => {
           wrapperClassName=""
           visible={true}
         />
-      )}
-      {!isLoading && (
-        <div className="graph">
+      ) : (
+        <div className="graph" id={classes.graph}>
           <h3 className="graphTitle"> {TitleName} </h3>{" "}
+          <ResponsiveContainer>
           <LineChart
-            width={500}
-            height={300}
+            width={650}
+            height={350}
             data={minDataVal}
             margin={{
               top: 0,
@@ -86,10 +87,10 @@ const MinuterLineGraph = (props) => {
               activeDot={{
                 r: 8,
               }}
-            />{" "}
-          </LineChart>{" "}
-        </div>
-      )}{" "}
+            />
+          </LineChart>
+          </ResponsiveContainer>
+        </div>)}
     </>
   );
 };

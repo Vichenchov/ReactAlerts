@@ -1,0 +1,32 @@
+.container{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: #000000e3;
+    box-shadow: var(--box-shadows);
+    -webkit-box-shadow: var(--box-shadows);
+    -moz-box-shadow: var(--box-shadows);
+    position: sticky;
+    top : 0;
+    z-index: 1000;
+}
+
+#iconColor{
+   color: var(--main-color);
+}
+
+.search{
+    margin-right: 7rem;
+}
+
+.icon{
+    margin-left: 7rem;
+}
+
+@media (max-width: 480px){
+    .search{
+        margin-right: 2rem;
+    }
+}

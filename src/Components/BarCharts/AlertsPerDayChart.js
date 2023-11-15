@@ -2,28 +2,29 @@ import classes from "./AlertsPerDayChart.module.css";
 
 import { useContext, useEffect, useState } from "react";
 import { alertsPerDayContext } from "../../Store/alertsPerDay/alertsperday-context";
-import { ThreeDots } from "react-loader-spinner";
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
+import { ResponsiveContainer ,BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
+import { ThreeDots } from "react-loader-spinner";
 
 const AlertsPerDayChart = (props) => {
   const { TitleName, Xlabel, Ylabel, DataKeyX, DataKeyY, TooltipLabel } = props;
 
   let alertsByDayData = useContext(alertsPerDayContext);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [color, setColor] = useState("");
 
   useEffect(() => {
-    setIsLoading(true);
+    setLoading(true);
     const root = document.querySelector(":root");
     const styles = getComputedStyle(root);
     setColor(styles.getPropertyValue("--main-color"));
-    if (alertsByDayData) setIsLoading(false);
+
+    if (alertsByDayData) setLoading(false);
   }, [alertsByDayData]);
 
   return (
     <>
-      {isLoading && (
+      {loading ? (
         <ThreeDots
           height="80"
           width="80"
@@ -34,13 +35,13 @@ const AlertsPerDayChart = (props) => {
           wrapperClassName=""
           visible={true}
         />
-      )}{" "}
-      {!isLoading && (
-        <div className="graph">
-          <h3 className="graphTitle"> {TitleName} </h3>{" "}
+      ) : (
+        <div className="graph" id={classes.graph}>
+          <h3 className="graphTitle"> {TitleName} </h3>
+          <ResponsiveContainer>
           <BarChart
-            width={700}
-            height={300}
+            width={800}
+            height={350}
             data={alertsByDayData}
             margin={{
               top: 0,
@@ -57,7 +58,7 @@ const AlertsPerDayChart = (props) => {
                 position: "bottom",
                 offset: 0,
               }}
-            />
+            />{" "}
             <YAxis
               dataKey={DataKeyY}
               label={{
@@ -66,8 +67,12 @@ const AlertsPerDayChart = (props) => {
                 position: "insideLeft",
                 textAnchor: "middle",
               }}
-            />
-            <Tooltip labelStyle={{ direction: 'rtl' }}/>
+            />{" "}
+            <Tooltip
+              labelStyle={{
+                direction: "rtl",
+              }}
+            />{" "}
             <Bar
               dataKey="total"
               name={TooltipLabel}
@@ -75,8 +80,9 @@ const AlertsPerDayChart = (props) => {
               fill={color}
             />
           </BarChart>
+          </ResponsiveContainer>
         </div>
-      )}{" "}
+      )}
     </>
   );
 };

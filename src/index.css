@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(22, 21, 21);
 }
 
 code {
@@ -12,27 +13,89 @@ code {
     monospace;
 }
 
-.dot {
+:root{
+  --main-color: rgba(241, 8, 8, 0.792);
+  --box-shadows : 0 3px 10px 1px rgb(0, 0, 0);
+  --graphs-background-color :  rgb(0, 0, 0);
+}
+
+/* .dot {
   height: 7px;
   width: 7px;
   background-color: #ff0000;
   border-radius: 50%;
   display: inline-block;
   margin : 0 4px 1px 0;
-}
+} */
 
-.graphs{
+.row{
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .graph{
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: 5rem;
-  padding: 0 4rem;
+  margin: 1rem;
+  height: 24rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+  border-radius: 20px;
+  padding: 3rem 2rem 1rem;
+  background-color: var(--graphs-background-color);
+  box-shadow: var(--box-shadows);
+  -webkit-box-shadow: var(--box-shadows);
+  -moz-box-shadow: var(--box-shadows);
 }
 
 .graphTitle{
   text-align: right;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 1rem 2rem;
+  white-space: nowrap;
+  color: var(--main-color);
+}
+
+.notCenter{
+  justify-content: start;
+}
+
+.notes{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem;
+  margin: 3rem 1rem;
+  align-items: center;
+  font-weight: bold;
+}
+
+.linkedin-btn {
+  font-size: 24px; 
+  color: #0077b5; 
+  cursor: pointer;
+}
+
+.linkedin-btn:hover {
+  color: #005885; 
+}
+
+.notes label{
+  margin: 0.5rem;
+}
+
+/* ================ */
+
+@media screen and (max-width: 1145px){
+  .row{
+    justify-content: center;
+  }
+  .graph{
+    width: 70%;
+  }
 }

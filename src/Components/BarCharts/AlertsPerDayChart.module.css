@@ -5,3 +5,26 @@
     border-color: gainsboro;
     border-width: 6px;
 }
+
+
+#graph{
+    width: 56%;
+  }
+  
+  @media screen and (max-width: 1410px){
+    #graph{
+        width: 50%;
+    }
+  }
+  
+  @media screen and (max-width: 1240px){
+    #graph{
+        width: 45%;
+    }
+  }
+  
+  @media screen and (max-width: 1145px){
+    #graph{
+        width: 70%;
+    }
+  }

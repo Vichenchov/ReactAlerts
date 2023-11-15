@@ -38,3 +38,12 @@ const getHoursWithSameVal = (array, val) => {
   }
   return newArray
 }
+
+exports.countAvg = (alerts) => {
+  let sum = 0;
+  alerts.forEach((alert) => {
+    sum += alert.total;
+  });
+  const avg = sum / (alerts.length)
+  return avg % 1 !== 0 ? avg.toFixed(1) : avg;
+};

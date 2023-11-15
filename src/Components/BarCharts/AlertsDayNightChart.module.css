@@ -1,0 +1,15 @@
+#graph{
+    width: 53%;
+  }
+  
+  @media screen and (max-width: 1300px){
+    #graph{
+        width: 50%;
+    }
+  }
+  
+  @media screen and (max-width: 1145px){
+    #graph{
+        width: 70%;
+    }
+  }

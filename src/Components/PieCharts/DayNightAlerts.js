@@ -1,12 +1,18 @@
 import classes from "./DayNightAlerts.module.css";
 
-import { PieChart, Pie, Sector } from "recharts";
+import { PieChart, Pie, Sector, ResponsiveContainer } from "recharts";
 import { alertsPerDayContext } from "../../Store/alertsPerDay/alertsperday-context";
 import { SearchContext } from "../../Store/search/search-context";
+import { ThreeDots } from "react-loader-spinner";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCallback, useContext, useEffect, useState } from "react";
+import Tooltip from "../Tooltip/Tooltip";
+import { useMediaQuery } from "react-responsive";
 
+let ifSmallScreen = false;
+
+const RADIAN = Math.PI / 180;
 const renderActiveShape = (props) => {
-  const RADIAN = Math.PI / 180;
   const {
     cx,
     cy,
@@ -40,8 +46,8 @@ const renderActiveShape = (props) => {
         className={classes.timeText}
         fill={fill}
       >
-        {payload.name}{" "}
-      </text>{" "}
+        {payload.name}
+      </text>
       <Sector
         cx={cx}
         cy={cy}
@@ -50,39 +56,68 @@ const renderActiveShape = (props) => {
         startAngle={startAngle}
         endAngle={endAngle}
         fill={fill}
-      />{" "}
+      />
       <Sector
         cx={cx}
         cy={cy}
         startAngle={startAngle}
         endAngle={endAngle}
-        innerRadius={outerRadius + 6}
+        innerRadius={outerRadius + 5}
         outerRadius={outerRadius + 10}
         fill={fill}
-      />{" "}
-      <path
-        d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
-        stroke={fill}
-        fill="none"
       />
-      <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
-      <text
-        x={ex + (cos >= 0 ? 1 : -1) * 12}
-        y={ey}
-        textAnchor={textAnchor}
-        fill="#333"
-      >
-        {` התראות : ${value}`}{" "}
-      </text>{" "}
-      <text
-        x={ex + (cos >= 0 ? 1 : -1) * 12}
-        y={ey}
-        dy={18}
-        textAnchor={textAnchor}
-        fill="#999"
-      >
-        {`(${(percent * 100).toFixed(2)}%)`}{" "}
-      </text>{" "}
+      {ifSmallScreen && (
+        <>
+          <text
+            x={cx}
+            y={40}
+            dy={8}
+            textAnchor="middle"
+            className={classes.timeText}
+            fill={fill}
+          >
+            {payload.value} : התראות
+          </text>
+          <text
+            x={cx}
+            y={75}
+            dy={8}
+            textAnchor="middle"
+            className={classes.timeText}
+            fill={fill}
+          >
+            {`(${(percent * 100).toFixed(2)}%)`}
+          </text>
+        </>
+      )}
+
+      {!ifSmallScreen && (
+        <>
+          <path
+            d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
+            stroke={fill}
+            fill="none"
+          />
+          <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
+          <text
+            x={ex + (cos >= 0 ? 1 : -1) * 12}
+            y={ey}
+            textAnchor={textAnchor}
+            fill="#333"
+          >
+            {`${value}`}
+          </text>
+          <text
+            x={ex + (cos >= 0 ? 1 : -1) * 12}
+            y={ey}
+            dy={18}
+            textAnchor={textAnchor}
+            fill="#999"
+          >
+            {`(${(percent * 100).toFixed(2)}%)`}
+          </text>
+        </>
+      )}
     </g>
   );
 };
@@ -92,6 +127,10 @@ const DayNightAlerts = (props) => {
   let alertsByDayData = useContext(alertsPerDayContext);
   let { searchValue } = useContext(SearchContext);
 
+  const isSmallSize = useMediaQuery({ maxWidth: 1145 });
+
+  ifSmallScreen = isSmallSize;
+
   const [activeIndex, setActiveIndex] = useState(0);
   const onPieEnter = useCallback(
     (_, index) => {
@@ -100,8 +139,8 @@ const DayNightAlerts = (props) => {
     [setActiveIndex]
   );
 
-  const [isLoading, setIsLoading] = useState(false);
   const [color, setColor] = useState("");
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState(
     {
       name: "00:00 - 06:00",
@@ -122,7 +161,7 @@ const DayNightAlerts = (props) => {
   );
 
   useEffect(() => {
-    setIsLoading(true);
+    setLoading(true);
     const root = document.querySelector(":root");
     const styles = getComputedStyle(root);
     setColor(styles.getPropertyValue("--main-color"));
@@ -155,29 +194,61 @@ const DayNightAlerts = (props) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-      } catch (error) {}
+      } catch (error) {
+      } finally {
+        setLoading(false);
+      }
     };
     fetchData();
   }, [searchValue, alertsByDayData]);
 
   return (
-    <div className="graph">
-      <h3 className="graphTitle"> {TitleName} </h3>
-      <PieChart width={450} height={400}>
-        <Pie
-          activeIndex={activeIndex}
-          activeShape={renderActiveShape}
-          data={data}
-          cx={200}
-          cy={200}
-          innerRadius={60}
-          outerRadius={80}
-          fill={color}
-          dataKey="value"
-          onMouseEnter={onPieEnter}
+    <>
+      {loading ? (
+        <ThreeDots
+          height="80"
+          width="80"
+          radius="9"
+          color={color}
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClassName=""
+          visible={true}
         />
-      </PieChart>
-    </div>
+      ) : (
+        <div className="graph" id={classes.graph}>
+          <h3 className="graphTitle">
+            {isSmallSize && (
+              <>
+                <Tooltip title="עבור על היקף העיגול">
+                  <FontAwesomeIcon
+                    icon="fa-regular fa-hand"
+                    fade
+                    size="xs"
+                    className={classes.icon}
+                  />
+                </Tooltip>
+              </>
+            )}
+            {TitleName}
+          </h3>
+          <ResponsiveContainer>
+            <PieChart width={350} height={300}>
+              <Pie
+                activeIndex={activeIndex}
+                activeShape={renderActiveShape}
+                data={data}
+                innerRadius={60}
+                outerRadius={80}
+                fill={color}
+                dataKey="value"
+                onMouseEnter={onPieEnter}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+    </>
   );
 };
 

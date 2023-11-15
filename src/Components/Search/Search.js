@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import classes from "./Search.module.css";
 
 import { SearchContext } from "../../Store/search/search-context";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function filterListInOrder(searchValue, list) {
   let resultStartsWith = [];
@@ -46,8 +47,8 @@ const Search = () => {
           throw new Error("Network response was not ok");
         }
         const result = await response.json();
-        setData(['ישראל',...result]);
-        setFilteredData(['ישראל',...result]);
+        setData(["ישראל", ...result]);
+        setFilteredData(["ישראל", ...result]);
       } catch (error) {
         setDisableSearch(true);
         setError(error);
@@ -64,8 +65,10 @@ const Search = () => {
     setSelectedIndex(-1);
     setSelectedItem(null);
     setValue(currentValue);
-    currentValue ? setVisible(true) : setVisible(false);
     const filtered = filterListInOrder(currentValue, data);
+    filtered.length > 0 && filtered.length !== data.length
+      ? setVisible(true)
+      : setVisible(false);
     setFilteredData(filtered);
   };
 
@@ -102,8 +105,10 @@ const Search = () => {
   return (
     <div className={classes.container}>
       <form onSubmit={handleFormSubmit} className={classes.search}>
+        {/* <label className={classes.startDate}>המידע מה-17.10</label> */}{" "}
         <div className={classes.resultes}>
           <input
+            className={classes.searchInput}
             disabled={disableSearch}
             type="text"
             placeholder={
@@ -113,7 +118,7 @@ const Search = () => {
             onChange={handleChange}
             onKeyDown={handleKeyDown}
           />
-          <div className={classes.dropdown + `${visible ? "v" : ""}`}>
+          <div>
             {visible && (
               <ul className={classes.ulCities}>
                 {data &&
@@ -130,14 +135,14 @@ const Search = () => {
                       onClick={() => handleResultClick(city)}
                       className={classes.dropdownItem}
                     >
-                      {city}
+                      <span className={classes.item}> {city} </span>{" "}
                     </li>
-                  ))}
+                  ))}{" "}
               </ul>
-            )}
-          </div>
-        </div>
-      </form>
+            )}{" "}
+          </div>{" "}
+        </div>{" "}
+      </form>{" "}
     </div>
   );
 };

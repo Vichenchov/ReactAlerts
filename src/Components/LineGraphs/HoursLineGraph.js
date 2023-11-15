@@ -7,6 +7,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  ResponsiveContainer,
 } from "recharts";
 
 import { useContext, useEffect, useState } from "react";
@@ -14,25 +15,32 @@ import { CityDataContext } from "../../Store/citydata/citydata-context";
 import { ThreeDots } from "react-loader-spinner";
 
 const HoursLineGraph = (props) => {
-  const { TitleName, Xlabel, Ylabel, DataKeyX, DataKeyY, TooltipLabel } = props;
+  const {
+    TitleName,
+    Xlabel,
+    Ylabel,
+    DataKeyX,
+    DataKeyY,
+    TooltipLabel
+  } = props;
 
   const cityDataVal = useContext(CityDataContext);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [color, setColor] = useState("");
 
   useEffect(() => {
-    setIsLoading(true);
+    setLoading(true);
     const root = document.querySelector(":root");
     const styles = getComputedStyle(root);
     setColor(styles.getPropertyValue("--main-color"));
 
-    if (cityDataVal) setIsLoading(false);
+    if (cityDataVal) setLoading(false);
   }, [cityDataVal]);
 
   return (
     <>
-      {isLoading && (
+     {loading ? (
         <ThreeDots
           height="80"
           width="80"
@@ -43,53 +51,53 @@ const HoursLineGraph = (props) => {
           wrapperClassName=""
           visible={true}
         />
-      )}
-      {!isLoading && (
-        <div className="graph">
-          <h3 className="graphTitle"> {TitleName} </h3>
-          <LineChart
-            width={500}
-            height={300}
-            data={cityDataVal}
-            margin={{
-              top: 0,
-              right: 0,
-              left: 0,
-              bottom: 15,
+      ) : (
+      <div className="graph" id={classes.graph}>
+        <h3 className="graphTitle"> {TitleName} </h3>
+        <ResponsiveContainer>
+        <LineChart
+          width={650}
+          height={350}
+          data={cityDataVal}
+          margin={{
+            top: 0,
+            right: 0,
+            left: 0,
+            bottom: 15,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis
+            dataKey={DataKeyX}
+            label={{
+              value: Xlabel,
+              position: "bottom",
+              offset: 0,
             }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              dataKey={DataKeyX}
-              label={{
-                value: Xlabel,
-                position: "bottom",
-                offset: 0,
-              }}
-              scale="band"
-            />
-            <YAxis
-              dataKey={DataKeyY}
-              label={{
-                value: Ylabel,
-                angle: -90,
-                position: "insideLeft",
-                textAnchor: "middle",
-              }}
-            />
-            <Tooltip labelStyle={{ direction: 'rtl' }} />
-            <Line
-              type="monotone"
-              dataKey="count"
-              name={TooltipLabel}
-              stroke={color}
-              activeDot={{
-                r: 8,
-              }}
-            />
-          </LineChart>
-        </div>
-      )}
+            scale="band"
+          />
+          <YAxis
+            dataKey={DataKeyY}
+            label={{
+              value: Ylabel,
+              angle: -90,
+              position: "insideLeft",
+              textAnchor: "middle",
+            }}
+          />
+          <Tooltip labelStyle={{ direction: "rtl" }} />
+          <Line
+            type="monotone"
+            dataKey="count"
+            name={TooltipLabel}
+            stroke={color}
+            activeDot={{
+              r: 8,
+            }}
+          />
+        </LineChart>
+        </ResponsiveContainer>
+      </div>)}
     </>
   );
 };
