@@ -1,7 +1,6 @@
 import classes from "./DayNightAlerts.module.css";
 
 import { PieChart, Pie, Sector, ResponsiveContainer } from "recharts";
-import { alertsPerDayContext } from "../../Store/alertsPerDay/alertsperday-context";
 import { SearchContext } from "../../Store/search/search-context";
 import { ThreeDots } from "react-loader-spinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -124,7 +123,6 @@ const renderActiveShape = (props) => {
 
 const DayNightAlerts = (props) => {
   const { TitleName } = props;
-  let alertsByDayData = useContext(alertsPerDayContext);
   let { searchValue } = useContext(SearchContext);
 
   const isSmallSize = useMediaQuery({ maxWidth: 1145 });
@@ -140,6 +138,7 @@ const DayNightAlerts = (props) => {
   );
 
   const [color, setColor] = useState("");
+  const [err, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(
     {
@@ -195,59 +194,76 @@ const DayNightAlerts = (props) => {
           throw new Error("Network response was not ok");
         }
       } catch (error) {
+        setError(true);
+        setLoading(false);
       } finally {
         setLoading(false);
       }
     };
     fetchData();
-  }, [searchValue, alertsByDayData]);
+  }, [searchValue]);
 
   return (
     <>
-      {loading ? (
-        <ThreeDots
-          height="80"
-          width="80"
-          radius="9"
-          color={color}
-          ariaLabel="three-dots-loading"
-          wrapperStyle={{}}
-          wrapperClassName=""
-          visible={true}
-        />
-      ) : (
-        <div className="graph" id={classes.graph}>
-          <h3 className="graphTitle">
-            {isSmallSize && (
+      <div className="graph" id={classes.graph}>
+        <h3 className="graphTitle">
+          {isSmallSize && (
+            <>
+              <Tooltip title="עבור על היקף העיגול">
+                <FontAwesomeIcon
+                  icon="fa-regular fa-hand"
+                  fade
+                  size="xs"
+                  className={classes.icon}
+                />
+              </Tooltip>
+            </>
+          )}
+          {TitleName}
+        </h3>
+        {loading ? (
+          <ThreeDots
+            height="80"
+            width="80"
+            radius="9"
+            color={color}
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClassName=""
+            visible={true}
+          />
+        ) : (
+          <>
+            {!err ? (
               <>
-                <Tooltip title="עבור על היקף העיגול">
-                  <FontAwesomeIcon
-                    icon="fa-regular fa-hand"
-                    fade
-                    size="xs"
-                    className={classes.icon}
-                  />
-                </Tooltip>
+                <ResponsiveContainer>
+                  <PieChart width={350} height={300}>
+                    <Pie
+                      activeIndex={activeIndex}
+                      activeShape={renderActiveShape}
+                      data={data}
+                      innerRadius={60}
+                      outerRadius={80}
+                      fill={color}
+                      dataKey="value"
+                      onMouseEnter={onPieEnter}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
               </>
+            ) : (
+              <h2 className="err">
+                <FontAwesomeIcon
+                  icon="fa-regular fa-face-frown"
+                  bounce
+                  size="sm"
+                />{" "}
+                שגיאה בקבלת הנתונים
+              </h2>
             )}
-            {TitleName}
-          </h3>
-          <ResponsiveContainer>
-            <PieChart width={350} height={300}>
-              <Pie
-                activeIndex={activeIndex}
-                activeShape={renderActiveShape}
-                data={data}
-                innerRadius={60}
-                outerRadius={80}
-                fill={color}
-                dataKey="value"
-                onMouseEnter={onPieEnter}
-              />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-      )}
+          </>
+        )}
+      </div>
     </>
   );
 };

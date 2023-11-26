@@ -9,6 +9,10 @@
   justify-content: space-between;
 }
 
+.containerLoading{
+  display: flex;
+  justify-content: center;
+}
 
 .iconPlace1,
 .iconPlace2,
@@ -16,9 +20,6 @@
   width: 16rem;
   padding: 1rem 2rem;
   background-color: var(--graphs-background-color);
-  border-width: 1px;
-  border-color: rgb(0, 0, 0);
-  border-style: solid;
   border-radius: 10px;
   box-shadow: var(--box-shadows);
   -webkit-box-shadow: var(--box-shadows);
@@ -29,7 +30,7 @@
 .container label {
   font-size: xx-large;
   font-weight: bold;
-  color: rgba(160, 160, 160, 0.993);
+  color: black;
 }
 
 h4 {

@@ -5,6 +5,7 @@ import { SearchContext } from "../search/search-context";
 const AlertsPerDayProvider = ({ children }) => {
   const { searchValue } = useContext(SearchContext);
   const [alertsByDayData, setAlertsByDayData] = useState(null);
+  const [alertsByDayDataError, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,14 +17,14 @@ const AlertsPerDayProvider = ({ children }) => {
             const data = await response.json();
             setAlertsByDayData(data);
           } catch (error) {
-            console.error("Error fetching data:", error);
+            setError(true);
           }
         };
         fetchData();
   }, [searchValue]);
 
   return (
-    <alertsPerDayContext.Provider value={alertsByDayData}>
+    <alertsPerDayContext.Provider value={{alertsByDayData, alertsByDayDataError}}>
       {children}
     </alertsPerDayContext.Provider>
   );

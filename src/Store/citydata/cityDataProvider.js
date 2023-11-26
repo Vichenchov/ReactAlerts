@@ -5,6 +5,7 @@ import { SearchContext } from "../search/search-context";
 const CityDataProvider = ({ children }) => {
   const { searchValue } = useContext(SearchContext);
   const [cityDataVal, setCityDataVal] = useState(null);
+  const [cityDataValError, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,14 +17,14 @@ const CityDataProvider = ({ children }) => {
         const data = await response.json();
         setCityDataVal(data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        setError(true);
       }
     };
     fetchData();
   }, [searchValue]);
 
   return (
-    <CityDataContext.Provider value={cityDataVal}>
+    <CityDataContext.Provider value={{cityDataVal, cityDataValError}}>
       {children}
     </CityDataContext.Provider>
   );

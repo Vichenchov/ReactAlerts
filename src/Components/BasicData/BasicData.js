@@ -12,8 +12,9 @@ import { ThreeDots } from "react-loader-spinner";
 
 const BasicData = () => {
   const { searchValue } = useContext(SearchContext);
-  const cityDataVal = useContext(CityDataContext);
-  const alertsByDayData = useContext(alertsPerDayContext);
+  const { cityDataVal, cityDataValError } = useContext(CityDataContext);
+  const { alertsByDayData, alertsByDayDataError } =
+    useContext(alertsPerDayContext);
 
   const [goodTimeList, setGoodTimeList] = useState([]);
   const [badTimeList, setBadTimeList] = useState([]);
@@ -33,41 +34,59 @@ const BasicData = () => {
     const styles = getComputedStyle(root);
     setColor(styles.getPropertyValue("--main-color"));
 
-    if (cityDataVal && alertsByDayData) {
-      let count = basicDataFunctions.getAmountOfAlerts(cityDataVal);
-      let badTime = basicDataFunctions.badHour(cityDataVal);
-      let goodTime = basicDataFunctions.goodHour(cityDataVal);
-      let avg = basicDataFunctions.countAvg(alertsByDayData);
-      setGoodTimeList(goodTime);
-      setBadTimeList(badTime);
+    if (alertsByDayDataError || cityDataValError) {
       setData({
-        city: searchValue || "ישראל",
-        badTime: badTime[0],
-        goodTime: goodTime[0],
-        count: count,
-        avg: avg,
+        city: "שגיאה בקבלת המידע",
+        badTime: "?",
+        goodTime: "?",
+        count: "?",
+        avg: "?",
       });
       setLoading(false);
+    } else {
+      if (cityDataVal && alertsByDayData) {
+        let count = basicDataFunctions.getAmountOfAlerts(cityDataVal);
+        let badTime = basicDataFunctions.badHour(cityDataVal);
+        let goodTime = basicDataFunctions.goodHour(cityDataVal);
+        let avg = basicDataFunctions.countAvg(alertsByDayData);
+        setGoodTimeList(goodTime);
+        setBadTimeList(badTime);
+        setData({
+          city: searchValue || "ישראל",
+          badTime: badTime[0],
+          goodTime: goodTime[0],
+          count: count,
+          avg: avg,
+        });
+        setLoading(false);
+      }
     }
-  }, [searchValue, cityDataVal, alertsByDayData]);
+  }, [
+    searchValue,
+    cityDataVal,
+    alertsByDayData,
+    alertsByDayDataError,
+    cityDataValError,
+  ]);
 
   return (
     <>
-      {loading ? (
-        <ThreeDots
-          height="80"
-          width="80"
-          radius="9"
-          color={color}
-          ariaLabel="three-dots-loading"
-          wrapperStyle={{}}
-          wrapperClassName=""
-          visible={true}
-        />
-      ) : (
-        <div className="">
-          <h1 className={classes.areaName}>{data.city}</h1>
-          <div className={classes.container}>
+      <div className="">
+        <h1 className={classes.areaName}>{data.city}</h1>
+        <div className={loading ? classes.containerLoading : classes.container}>
+          {loading ? (
+            <ThreeDots
+              height="80"
+              width="80"
+              radius="9"
+              color={color}
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{}}
+              wrapperClassName=""
+              visible={true}
+            />
+          ) : (
+            <>
               <div className={classes.addPadding}>
                 <h4>כמות התראות צבע אדום</h4>
                 <label>{data.count}</label>
@@ -118,9 +137,10 @@ const BasicData = () => {
                 </h4>
                 <label>{data.badTime}</label>
               </div>
-            </div>
+            </>
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 };

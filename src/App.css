@@ -1,10 +1,11 @@
 .main{
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.threeDots{
-  display: flex;
-  justify-content: center;
+.centerLoadingAndErr{
+  position: absolute;
+  top: 20rem;
 }

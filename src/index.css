@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(22, 21, 21);
+  background-color: rgb(221, 221, 221);
 }
 
 code {
@@ -14,9 +14,9 @@ code {
 }
 
 :root{
-  --main-color: rgba(241, 8, 8, 0.792);
-  --box-shadows : 0 3px 10px 1px rgb(0, 0, 0);
-  --graphs-background-color :  rgb(0, 0, 0);
+  --main-color: rgba(235, 11, 11, 0.887);
+  --box-shadows : 0 3px 10px 1px rgb(206, 206, 206);
+  --graphs-background-color :  rgb(255, 255, 255);
 }
 
 /* .dot {
@@ -41,7 +41,7 @@ code {
   justify-content: center;
   margin: 1rem;
   height: 24rem;
-  align-items: baseline;
+  align-items: center;
   flex-wrap: wrap;
   border-radius: 20px;
   padding: 3rem 2rem 1rem;
@@ -87,6 +87,10 @@ code {
 
 .notes label{
   margin: 0.5rem;
+}
+
+.err{
+  color: var(--main-color);
 }
 
 /* ================ */

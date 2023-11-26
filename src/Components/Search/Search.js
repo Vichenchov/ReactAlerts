@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import classes from "./Search.module.css";
 
 import { SearchContext } from "../../Store/search/search-context";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function filterListInOrder(searchValue, list) {
   let resultStartsWith = [];
@@ -50,6 +49,7 @@ const Search = () => {
         setData(["ישראל", ...result]);
         setFilteredData(["ישראל", ...result]);
       } catch (error) {
+        console.log(123);
         setDisableSearch(true);
         setError(error);
       }
@@ -66,10 +66,14 @@ const Search = () => {
     setSelectedItem(null);
     setValue(currentValue);
     const filtered = filterListInOrder(currentValue, data);
-    filtered.length > 0 && filtered.length !== data.length
-      ? setVisible(true)
-      : setVisible(false);
-    setFilteredData(filtered);
+    if(currentValue.length !== 0){
+      setVisible(true);
+      filtered.length > 0 && filtered.length !== data.length
+        ? setFilteredData(filtered)
+        : setFilteredData(['האזור לא נמצא',...filtered])
+    }else{
+      setVisible(false);
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -105,14 +109,13 @@ const Search = () => {
   return (
     <div className={classes.container}>
       <form onSubmit={handleFormSubmit} className={classes.search}>
-        {/* <label className={classes.startDate}>המידע מה-17.10</label> */}{" "}
         <div className={classes.resultes}>
           <input
             className={classes.searchInput}
             disabled={disableSearch}
             type="text"
             placeholder={
-              disableSearch ? "שגיאה בקבלת רשימת הערים" : "חפש את הישוב שלך..."
+              disableSearch ? "שגיאה בקבלת רשימת הערים" : "יש לבחור אזור מהרשימה"
             }
             value={value}
             onChange={handleChange}
@@ -137,9 +140,9 @@ const Search = () => {
                     >
                       <span className={classes.item}> {city} </span>{" "}
                     </li>
-                  ))}{" "}
+                  ))}
               </ul>
-            )}{" "}
+            )}
           </div>{" "}
         </div>{" "}
       </form>{" "}
