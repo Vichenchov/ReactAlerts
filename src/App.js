@@ -112,7 +112,7 @@ function App() {
                       TooltipLabel={'סה"כ ההתרעות ביממה'}
                       DataKeyX={"date"}
                     />
-                    <AlertsTable TitleName={"התראות ב24 שעות האחרונות"} />
+                    <AlertsTable TitleName={"התראות ב24 השעות האחרונות"} />
                   </div>
 
                   <div className="row">
@@ -127,17 +127,17 @@ function App() {
                   </div>
 
                   <div className="row">
-                    <HoursLineGraph
-                      TitleName={"כמות התרעות לפי שעות"}
-                      Xlabel={"טווח שעות"}
+                    <MinutesLineGraph
+                      TitleName={"כמות התרעות לפי דקות (שעה עגולה)"}
+                      Xlabel={"דקה בשעה עגולה"}
                       Ylabel={"כמות התרעות"}
                       DataKeyX={"time"}
                       DataKeyY={"count"}
                       TooltipLabel={"כמות התרעות"}
                     />
-                    <MinutesLineGraph
-                      TitleName={"כמות התרעות לפי דקות"}
-                      Xlabel={"דקה בשעה עגולה"}
+                    <HoursLineGraph
+                      TitleName={"כמות התרעות לפי שעות"}
+                      Xlabel={"טווח שעות"}
                       Ylabel={"כמות התרעות"}
                       DataKeyX={"time"}
                       DataKeyY={"count"}
