@@ -2,7 +2,6 @@ import cls from "./AlertsTable.module.css";
 
 import * as React from "react";
 import Table from "@mui/material/Table";
-import { makeStyles } from "@material-ui/core/styles";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
@@ -16,30 +15,9 @@ import { useContext, useEffect, useState } from "react";
 import { SearchContext } from "../../Store/search/search-context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const root = document.querySelector(":root");
-const styles = getComputedStyle(root);
-const headerColor = styles.getPropertyValue("--main-color");
-
-const useStyles = makeStyles({
-  tableHead: {
-    "& .MuiTableCell-head": {
-      color: headerColor,
-      fontWeight: "bold",
-      backgroundColor: "var(--graphs-background-color)",
-    },
-  },
-  tableRow: {
-    "&:hover": {
-      backgroundColor: "#f0f0f0",
-      border: '1px solid #f0f0f0'
-    },
-  },
-});
-
 const AlertsTable = (props) => {
   const { TitleName } = props;
   const { searchValue } = useContext(SearchContext);
-  const classes = useStyles();
 
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -112,7 +90,7 @@ const AlertsTable = (props) => {
                         className={cls.tbl}
                       >
                         <TableHead>
-                          <TableRow className={classes.tableHead}>
+                          <TableRow className={cls.tableHead}>
                             <TableCell align="right">תאריך</TableCell>
                             <TableCell align="right">שעה</TableCell>
                             <TableCell align="right">אזור</TableCell>
@@ -128,7 +106,7 @@ const AlertsTable = (props) => {
                         <TableBody>
                           {rows.map((row, index) => (
                             <TableRow
-                              className={classes.tableRow}
+                              className={cls.tableRow}
                               key={index}
                               sx={{
                                 "&:last-child td, &:last-child th": {

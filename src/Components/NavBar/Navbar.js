@@ -3,8 +3,25 @@ import classes from "./Navbar.module.css";
 import Search from "../Search/Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Tooltip from "../Tooltip/Tooltip";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
+  const [isConnectedToPikudHaoref, setIsConnectedToPikudHaoref] =
+    useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3002/isErrorInAPI");
+        const ifConnected = await response.json();
+        setIsConnectedToPikudHaoref(ifConnected);
+      } catch (error) {
+        setIsConnectedToPikudHaoref(true);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className={classes.container}>
       <div className={classes.search}>
@@ -17,6 +34,19 @@ const Navbar = () => {
           ></img>
         </Tooltip>
         <Search />
+        {isConnectedToPikudHaoref && (
+          <Tooltip
+            title={"תקלה בקבלת המידע מפיקוד העורף"}
+            content={"ייתכן כי המידע אינו עדכני"}
+          >
+            <FontAwesomeIcon
+              icon="fa-solid fa-tower-cell"
+              fade
+              size="sm"
+              style={{ color: "#bfc1c4" }}
+            />
+          </Tooltip>
+        )}
       </div>
       <div className={classes.icon}>
         <Tooltip

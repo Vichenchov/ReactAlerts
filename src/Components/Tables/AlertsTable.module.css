@@ -7,6 +7,17 @@
     background-color: #fff;
 }
 
+& .MuiTableCell-head{
+    color: var(--main-color);
+    font-weight: bold;
+    background-color: var(--graphs-background-color);
+}
+
+&:hover{
+    background-color: "#f0f0f0";
+    border: 1px solid #f0f0f0;
+  }
+
 #tblCell{
     color: var(--main-color);
 }
