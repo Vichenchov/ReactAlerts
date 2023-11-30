@@ -47,11 +47,12 @@ function App() {
           setErr(true);
         }
       } catch (error) {
+        setErr(true);
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
-  }, [alertsByDayData, cityDataVal]);
+  }, [alertsByDayData, cityDataVal,alertsByDayDataError,cityDataValError]);
 
   const linkedinProfileUrl =
     "https://www.linkedin.com/in/max-viventsov-b58754206";
@@ -79,7 +80,7 @@ function App() {
                 bounce
                 size="sm"
               />
-              שגיאה בקבלת הנתונים
+               שגיאה בקבלת הנתונים
             </h2>
           </div>
         ) : (

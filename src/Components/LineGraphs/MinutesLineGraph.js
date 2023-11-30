@@ -15,6 +15,8 @@ import { ThreeDots } from "react-loader-spinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SearchContext } from "../../Store/search/search-context";
 
+import { API } from '../../urls'
+
 const MinuterLineGraph = (props) => {
   const { TitleName, Xlabel, Ylabel, DataKeyX, DataKeyY, TooltipLabel } = props;
   const { searchValue } = useContext(SearchContext);
@@ -32,9 +34,9 @@ const MinuterLineGraph = (props) => {
 
     const fetchData = async () => {
       try {
-        let url = `http://localhost:3001/Alerts/ישראל/byMin`;
+        let url = `${API.DATA}/Alerts/ישראל/byMin`;
         if (searchValue)
-          url = `http://localhost:3001/Alerts/${searchValue}/byMin`;
+          url = `${API.DATA}/Alerts/${searchValue}/byMin`;
         const response = await fetch(url);
         const data = await response.json();
         setMinDataVal(data);
