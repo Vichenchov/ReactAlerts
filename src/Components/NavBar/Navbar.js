@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Tooltip from "../Tooltip/Tooltip";
 import { useEffect, useState } from "react";
 
+import { API } from '../../urls'
+
 const Navbar = () => {
   const [isConnectedToPikudHaoref, setIsConnectedToPikudHaoref] =
     useState(false);
@@ -12,7 +14,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3002/isErrorInAPI");
+        const response = await fetch(`${API.PIKUD}/isErrorInAPI`);
         const ifConnected = await response.json();
         setIsConnectedToPikudHaoref(ifConnected);
       } catch (error) {

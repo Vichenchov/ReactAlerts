@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { CityDataContext } from "./citydata-context";
 import { SearchContext } from "../search/search-context";
 
+import { API } from '../../urls'
+
 const CityDataProvider = ({ children }) => {
   const { searchValue } = useContext(SearchContext);
   const [cityDataVal, setCityDataVal] = useState(null);
@@ -10,9 +12,9 @@ const CityDataProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let url = "http://localhost:3001/Alerts";
+        let url = `${API.DATA}/Alerts`;
         if (searchValue && searchValue !== "ישראל")
-          url = `http://localhost:3001/Alerts/${searchValue}/byHour`;
+          url = `${API.DATA}/Alerts/${searchValue}/byHour`;
         const response = await fetch(url);
         const data = await response.json();
         setCityDataVal(data);

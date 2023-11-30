@@ -147,7 +147,7 @@ function App() {
                 </div>
 
                 <div className="notes">
-                  <label>המידע מה 17.10</label>
+                  <label>המידע מה 16.10</label>
                   <label>נבנה ע"י מקס ויבנצוב</label>
                   <div
                     className="linkedin-btn"

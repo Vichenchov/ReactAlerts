@@ -3,6 +3,8 @@ import classes from "./Search.module.css";
 
 import { SearchContext } from "../../Store/search/search-context";
 
+import { API } from '../../urls'
+
 function filterListInOrder(searchValue, list) {
   let resultStartsWith = [];
   let resultContains = [];
@@ -41,7 +43,7 @@ const Search = () => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3001/Alerts/cities");
+        const response = await fetch(`${API.DATA}/Alerts/cities`);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }

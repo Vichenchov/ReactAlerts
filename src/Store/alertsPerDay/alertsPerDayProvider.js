@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { alertsPerDayContext } from "./alertsperday-context";
 import { SearchContext } from "../search/search-context";
 
+import { API } from '../../urls.js';
+
 const AlertsPerDayProvider = ({ children }) => {
   const { searchValue } = useContext(SearchContext);
   const [alertsByDayData, setAlertsByDayData] = useState(null);
@@ -10,9 +12,9 @@ const AlertsPerDayProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
         try {
-            let url = `http://localhost:3001/Alerts/ישראל/byDay`;
+            let url = `${API.DATA}/Alerts/ישראל/byDay`;
             if (searchValue)
-              url = `http://localhost:3001/Alerts/${searchValue}/byDay`;
+              url = `${API.DATA}/Alerts/${searchValue}/byDay`;
             const response = await fetch(url);
             const data = await response.json();
             setAlertsByDayData(data);

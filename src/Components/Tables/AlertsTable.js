@@ -12,6 +12,8 @@ import { ThreeDots } from "react-loader-spinner";
 
 import { useContext, useEffect, useState } from "react";
 
+import { API } from '../../urls'
+
 import { SearchContext } from "../../Store/search/search-context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -33,9 +35,9 @@ const AlertsTable = (props) => {
     
     const fetchData = async () => {
       try {
-        let url = `http://localhost:3001/Alerts/ישראל/last24`;
+        let url = `${API.DATA}/Alerts/ישראל/last24`;
         if (searchValue)
-          url = `http://localhost:3001/Alerts/${searchValue}/last24`;
+          url = `${API.DATA}/Alerts/${searchValue}/last24`;
         const response = await fetch(url);
         if (!response.ok) {
           throw new Error("Network response was not ok");

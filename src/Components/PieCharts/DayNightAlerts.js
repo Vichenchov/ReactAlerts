@@ -8,6 +8,8 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import Tooltip from "../Tooltip/Tooltip";
 import { useMediaQuery } from "react-responsive";
 
+import { API } from '../../urls'
+
 let ifSmallScreen = false;
 
 const RADIAN = Math.PI / 180;
@@ -166,9 +168,9 @@ const DayNightAlerts = (props) => {
     setColor(styles.getPropertyValue("--main-color"));
     const fetchData = async () => {
       try {
-        let url = `http://localhost:3001/Alerts/ישראל/quarters`;
+        let url = `${API.DATA}/Alerts/ישראל/quarters`;
         if (searchValue)
-          url = `http://localhost:3001/Alerts/${searchValue}/quarters`;
+          url = `${API.DATA}/Alerts/${searchValue}/quarters`;
         const response = await fetch(url);
         const alerts = await response.json();
         const newData = [
