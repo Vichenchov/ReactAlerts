@@ -51,7 +51,6 @@ const Search = () => {
         setData(["ישראל", ...result]);
         setFilteredData(["ישראל", ...result]);
       } catch (error) {
-        console.log(123);
         setDisableSearch(true);
         setError(error);
       }

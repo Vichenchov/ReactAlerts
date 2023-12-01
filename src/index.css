@@ -98,6 +98,8 @@ code {
 @media screen and (max-width: 1145px){
   .row{
     justify-content: center;
+    flex-direction: column-reverse;
+    align-items: center;
   }
   .graph{
     width: 70%;
