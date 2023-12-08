@@ -52,7 +52,7 @@ function App() {
       }
     };
     fetchData();
-  }, [alertsByDayData, cityDataVal,alertsByDayDataError,cityDataValError]);
+  }, [alertsByDayData, cityDataVal, alertsByDayDataError, cityDataValError]);
 
   const linkedinProfileUrl =
     "https://www.linkedin.com/in/max-viventsov-b58754206";
@@ -71,6 +71,8 @@ function App() {
 
   return (
     <>
+      <Navbar />
+
       <div className="main">
         {err ? (
           <div className="centerLoadingAndErr">
@@ -80,7 +82,7 @@ function App() {
                 bounce
                 size="sm"
               />
-               שגיאה בקבלת הנתונים
+              שגיאה בקבלת הנתונים
             </h2>
           </div>
         ) : (
@@ -100,8 +102,6 @@ function App() {
               </div>
             ) : (
               <>
-                <Navbar />
-
                 <div className="data">
                   <BasicData />
 
@@ -148,6 +148,7 @@ function App() {
                 </div>
 
                 <div className="notes">
+                  <label>התראה ראשונה במערכת: 7/10 8:48</label>
                   <label>נבנה ע"י מקס ויבנצוב</label>
                   <div
                     className="linkedin-btn"

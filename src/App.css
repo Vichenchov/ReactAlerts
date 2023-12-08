@@ -9,3 +9,8 @@
   position: absolute;
   top: 20rem;
 }
+
+.notes label{
+  font-size: small;
+}
+
