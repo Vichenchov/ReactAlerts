@@ -113,11 +113,11 @@ function App() {
                       TooltipLabel={'סה"כ ההתרעות ביממה'}
                       DataKeyX={"date"}
                     />
-                    <AlertsTable TitleName={"התראות ב24 השעות האחרונות"} />
+                    <AlertsTable TitleName={"התרעות ב24 השעות האחרונות"} />
                   </div>
 
                   <div className="row">
-                    <DayNightAlerts TitleName={"התראות לפי זמנים ביממה"} />
+                    <DayNightAlerts TitleName={"התרעות לפי זמנים ביממה"} />
                     <AlertsDayNightChart
                       TitleName={"התרעות - יום ולילה"}
                       Xlabel={"תאריך"}
@@ -148,7 +148,7 @@ function App() {
                 </div>
 
                 <div className="notes">
-                  <label>התראה ראשונה במערכת: 7/10 8:48</label>
+                  <label>התרעה ראשונה במערכת: 7/10 8:48</label>
                   <label>נבנה ע"י מקס ויבנצוב</label>
                   <div
                     className="linkedin-btn"

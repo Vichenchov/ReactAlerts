@@ -88,7 +88,7 @@ const BasicData = () => {
           ) : (
             <>
               <div className={classes.addPadding}>
-                <h4>כמות התראות צבע אדום</h4>
+                <h4>כמות התרעות צבע אדום</h4>
                 <label>{data.count}</label>
               </div>
               <div className={classes.addPadding}>

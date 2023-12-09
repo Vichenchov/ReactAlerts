@@ -76,7 +76,7 @@ const AlertsTable = (props) => {
               <>
                 <div className={rows.length !== 0 ? cls.tableClass : ""}>
                   {rows.length === 0 && (
-                    <h3 className={cls.noAlerts}>ללא התראות בזמן האחרון</h3>
+                    <h3 className={cls.noAlerts}>ללא התרעות בזמן האחרון</h3>
                   )}
                   {rows.length > 0 && (
                     <TableContainer

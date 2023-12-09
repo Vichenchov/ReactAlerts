@@ -77,7 +77,7 @@ const renderActiveShape = (props) => {
             className={classes.timeText}
             fill={fill}
           >
-            {payload.value} : התראות
+            {payload.value} : התרעות
           </text>
           <text
             x={cx}
